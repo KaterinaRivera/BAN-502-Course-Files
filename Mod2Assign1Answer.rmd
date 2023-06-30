@@ -1,0 +1,54 @@
+
+```{r}
+install.packages("scales")
+install.packages("tidyverse")
+install.packages("ggplot2")       
+install.packages("GGally")
+```
+
+```{r}
+air = airquality 
+nrow(air)
+ncol(air)
+is.na(air)
+```
+
+```{r}
+library("tidyr")
+air2 = air %>% drop_na()
+nrow(air2)
+ncol(air2)
+```
+
+```{r}
+library(GGally)
+ggpairs(air2, columns = 1:6)
+ggcorr(air2[, 1:6], label = TRUE)
+```
+
+```{r}
+ggplot(data=air2, aes(x=Temp, y=Ozone, group=1)) +
+  geom_line()
+```
+
+```{r}
+install.packages("tidymodels")
+install.packages("ISLR")
+```
+```{r}
+install.packages("lmtest")
+```
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(tidymodels)
+lm_spec <- linear_reg() %>%
+  set_mode("regression") %>%
+  set_engine("lm")
+lm_fit <- lm_spec %>%
+  fit(Ozone ~ Temp, data = air2)
+lm_fit %>% 
+  pluck("fit") %>%
+  summary()
+```
